@@ -1,4 +1,4 @@
-FROM nginx:1.15-alpine
+FROM nginx
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY . /usr/share/nginx/html
 EXPOSE 80
