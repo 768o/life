@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <title>768o</title>
   <link rel="stylesheet" href="../css/element-ui.css">
+  <link rel="stylesheet" href="../agent/css/element-ui.css">
 </head>
 
 <body>
@@ -25,8 +26,56 @@
                 </el-card>
               </el-col>
             </el-tab-pane>
-            <el-tab-pane label="2">
-              <div></div>
+            <el-tab-pane label="类生成">
+              <el-row>
+                <el-col style="border-left: solid 1px #e6e6e6; padding-left: 15px;text-align: left;" :span="24">
+                  <el-form ref="form" :model="form" label-width="80px">
+                    <el-form-item label="解决方案">
+                      <el-input style="width:300px" v-model="form.namespace"></el-input>
+                    </el-form-item>
+                  </el-form>
+                  <el-row>
+                  <el-card class="box-card">
+                    <div slot="header" class="clearfix">
+                      <span><el-input placeholder="请输入表名" style="width:300px" v-model="form.description"></el-input></span>
+                      <el-button style="margin-left: 15px; float: right;" @click="download">下载</el-button>
+                      <el-button style="float: right;"  @click="showDialog">添加列</el-button>
+                    </div>
+                    <el-table :data="tableData" style="width: 100%">
+                      <el-table-column prop="description" label="列名" width="180"></el-table-column>
+                      <el-table-column prop="type" label="类型"></el-table-column>
+                      <el-table-column fixed="right" label="操作" width="120">
+                      <template slot-scope="scope">
+                        <el-button @click.native.prevent="deleteRow(scope.$index, tableData)" type="text" size="small">移除</el-button>
+                      </template>
+                    </el-table-column>
+                    </el-table>
+                  </el-card>
+                  </el-row>
+                </el-col>
+                <el-dialog title="列属性" :visible.sync="dialogVisible" width="400px">
+                 <el-form style="text-align: left;" ref="form" :model="form" label-width="80px">
+                    <el-form-item label="类型">
+                      <el-select style="width:250px" v-model="form.type" placeholder="请选择类型">
+                        <el-option label="int" value="int"></el-option>
+                        <el-option label="long" value="long"></el-option>
+                        <el-option label="string" value="string"></el-option>
+                        <el-option label="float" value="float"></el-option>
+                        <el-option label="Double" value="Double"></el-option>
+                        <el-option label="DateTime" value="DateTime"></el-option>
+                        <el-option label="decimal" value="decimal"></el-option>
+                        <el-option label="bool" value="bool"></el-option>
+                      </el-select>
+                    </el-form-item>
+                    <el-form-item label="列名">
+                      <el-input style="width:250px" v-model="form.description1"></el-input>
+                    </el-form-item>
+                  </el-form>
+                  <span slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="addItem">确 定</el-button>
+                  </span>
+                </el-dialog>
+              </el-row>
             </el-tab-pane>
           </el-tabs>
         </el-col>
@@ -36,13 +85,74 @@
   </div>
 <script src="../js/vue.js"></script>
 <script src="../js/element-ui.js"></script>
+<script src="../agent/js/vue.js"></script>
+<script src="../agent/js/element-ui.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
   var obj = new Vue({
           el: "#app",
           data: {
             tabPosition: 'left',
+            form: {
+              namespace: 'Default',
+              description: '',
+              classSettingsItems: [],
+              description1: '',
+              type:''
+            },
+            tableData: [],
+            dialogVisible: false
           },
           methods: {
+            addItem(){
+              if(this.form.description1 == '' || this.form.type == ''){
+                this.$notify({
+                  title: '错误提示',
+                  message: '类型和名称不能为空'
+                });
+              }else{
+                var item = {
+                  description:this.form.description1,
+                  type:this.form.type
+                };
+                this.tableData.push(item);
+                this.form.classSettingsItems = this.tableData;
+                this.dialogVisible = false;  
+              }
+            },
+            showDialog(){
+              this.form.description1 = '';
+              this.form.type= '';
+              this.dialogVisible = true;
+            },
+            handleSelect(key, keyPath) {
+              console.log(key);
+            },
+            deleteRow(index, rows) {
+              rows.splice(index, 1);
+            },
+            download() {
+              var baseUrl = "http://112.74.92.140:8001/api";
+              var downloadUrl = baseUrl + "/ClassBuilders/GetClass";
+              var tableName = baseUrl + "/ClassBuilders/GetFileName?name=" + this.form.description;
+              axios.post(downloadUrl, this.form, {
+                responseType: 'blob'
+              }).then(res => {
+                let blob = res.data
+                let reader = new FileReader()
+                reader.readAsDataURL(blob)
+                reader.onload = (e) => {
+                  axios.get(tableName).then(res =>{
+                    let a = document.createElement('a')
+                    a.download = res.data;
+                    a.href = e.target.result
+                    document.body.appendChild(a)
+                    a.click()
+                    document.body.removeChild(a)
+                  });
+                }
+              })
+            }
           }
   });
 </script>
