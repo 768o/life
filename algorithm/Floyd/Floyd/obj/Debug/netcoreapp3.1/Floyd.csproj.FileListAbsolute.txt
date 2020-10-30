@@ -1,0 +1,13 @@
+D:\GIT\Floyd\Floyd\Floyd\bin\Debug\netcoreapp3.1\Floyd.exe
+D:\GIT\Floyd\Floyd\Floyd\bin\Debug\netcoreapp3.1\Floyd.deps.json
+D:\GIT\Floyd\Floyd\Floyd\bin\Debug\netcoreapp3.1\Floyd.runtimeconfig.json
+D:\GIT\Floyd\Floyd\Floyd\bin\Debug\netcoreapp3.1\Floyd.runtimeconfig.dev.json
+D:\GIT\Floyd\Floyd\Floyd\bin\Debug\netcoreapp3.1\Floyd.dll
+D:\GIT\Floyd\Floyd\Floyd\bin\Debug\netcoreapp3.1\Floyd.pdb
+D:\GIT\Floyd\Floyd\Floyd\obj\Debug\netcoreapp3.1\Floyd.csprojAssemblyReference.cache
+D:\GIT\Floyd\Floyd\Floyd\obj\Debug\netcoreapp3.1\Floyd.AssemblyInfoInputs.cache
+D:\GIT\Floyd\Floyd\Floyd\obj\Debug\netcoreapp3.1\Floyd.AssemblyInfo.cs
+D:\GIT\Floyd\Floyd\Floyd\obj\Debug\netcoreapp3.1\Floyd.csproj.CoreCompileInputs.cache
+D:\GIT\Floyd\Floyd\Floyd\obj\Debug\netcoreapp3.1\Floyd.dll
+D:\GIT\Floyd\Floyd\Floyd\obj\Debug\netcoreapp3.1\Floyd.pdb
+D:\GIT\Floyd\Floyd\Floyd\obj\Debug\netcoreapp3.1\Floyd.genruntimeconfig.cache
